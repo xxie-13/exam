@@ -6,13 +6,12 @@ const update = document.querySelector("#update");
 
 //POST API
 submit.addEventListener("click", () => {
-  let fname = document.querySelector("#fname").value;
-  let lname = document.querySelector("#lname").value;
-  let email = document.querySelector("#email").value;
-  let gender = document.querySelector("#gender").value;
-  let formData = { fname, lname, email, gender };
+  let item = document.querySelector("#item").value;
+  let quantity = document.querySelector("#quantity").value;
+  let price = document.querySelector("#price").value;
+  let formData = { item, quantity, price };
 
-  fetch("http://localhost:7001/api/users", {
+  fetch("https://semifinexam.onrender.com/api/item", {
     method: "POST",
     body: JSON.stringify(formData),
     headers: {
@@ -21,18 +20,18 @@ submit.addEventListener("click", () => {
   }).catch((error) => {
     console.log(error);
   });
-  alert("User Added Successfully");
+  alert("Item Added Successfully");
   location.reload();
 });
 
 window.addEventListener("load", () => {
-  getUsers();
+  getItems();
 });
 
-function getUsers() {
+function getItems() {
   let html = "";
   //FETCH API
-  fetch("http://localhost:7001/api/users", { mode: "cors" })
+  fetch("https://semifinexam.onrender.com/api/item", { mode: "cors" })
     .then((response) => {
       console.log(response);
       return response.json();
@@ -40,8 +39,8 @@ function getUsers() {
     .then((data) => {
       console.log(data);
       data.forEach((element) => {
-        html += `<li> ${element.first_name} ${element.last_name} <a href="javascript:void(0)" onClick="deleteMember(${element.id})">Delete</a></li>`;
-        html += `<li> ${element.first_name} ${element.last_name} <a href="javascript:void(0)" onClick="updateMember(${element.id})">Update</a></li>`;
+        html += `<li> ${element.item} ${element.quantity} <a href="javascript:void(0)" onClick="deleteMember(${element.id})">Delete</a></li>`;
+        html += `<li> ${element.item} ${element.quantity} <a href="javascript:void(0)" onClick="updateMember(${element.id})">Update</a></li>`;
       });
 
       content.innerHTML = html;
@@ -52,8 +51,8 @@ function getUsers() {
 }
 
 //DELETE
-function deleteMember(id) {
-  fetch("http://localhost:7001/api/users", {
+function deleteItem(id) {
+  fetch("https://semifinexam.onrender.com/api/item", {
     method: "DELETE",
     body: JSON.stringify({ id }),
     headers: {
@@ -65,20 +64,19 @@ function deleteMember(id) {
     .catch((error) => {
       console.log(error);
     });
-  if (confirm("Are you sure?")) {
+  if (confirm("Confirm deletion?")) {
     location.reload();
   }
 }
 
 //UPDATE
-function updateMember(id) {
-  fetch(`http://localhost:7001/api/users${id}`)
+function updateItem(id) {
+  fetch(`https://semifinexam.onrender.com/api/item${id}`)
     .then((response) => response.json())
     .then((data) => {
-      document.querySelector("#first_name").value = data[0].first_name;
-      document.querySelector("#last_name").value = data[0].last_name;
-      document.querySelector("#email").value = data[0].email;
-      document.querySelector("#gender").value = data[0].gender;
+      document.querySelector("#item").value = data[0].item;
+      document.querySelector("#quantity").value = data[0].quantity;
+      document.querySelector("#price").value = data[0].price;
       document.querySelector("#ID").value = data[0].id;
     })
     .catch((error) => {
@@ -87,15 +85,14 @@ function updateMember(id) {
 }
 
 update.addEventListener("click", () => {
-  let first_name = document.querySelector("#first_name").value;
-  let last_name = document.querySelector("#last_name").value;
-  let email = document.querySelector("#email").value;
-  let gender = document.querySelector("#gender").value;
+  let item = document.querySelector("#item").value;
+  let quantity = document.querySelector("#quantity").value;
+  let price = document.querySelector("#price").value;
 
   let id = document.querySelector("#ID").value;
 
-  let formData = { first_name, last_name, email, gender, id };
-  fetch(`http://localhost:7001/api/users`, {
+  let formData = { item, quantity, price, id };
+  fetch(`https://semifinexam.onrender.com/api/item`, {
     method: "PUT",
     body: JSON.stringify(formData),
     headers: {
@@ -104,6 +101,6 @@ update.addEventListener("click", () => {
   }).catch((error) => {
     console.log(error);
   });
-  alert("User Update Success");
+  alert("Item Updated Successfully");
   location.reload();
 });
