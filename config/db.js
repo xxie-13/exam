@@ -22,3 +22,7 @@ const connection = mysql.createPool({
 });
 
 module.exports = connection;
+
+git add .
+git commit -m "fix db pool and cors"
+git push
