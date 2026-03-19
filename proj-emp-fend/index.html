@@ -162,11 +162,20 @@
         border-radius: 8px;
         padding: 0.6rem 0.85rem;
         outline: none;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
+        transition: border-color 0.2s, box-shadow 0.2s;
         width: 100%;
         appearance: none;
+      }
+
+      /* Remove number input arrows */
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type="number"] {
+        -moz-appearance: textfield;
       }
 
       input:focus,
@@ -184,24 +193,6 @@
         cursor: pointer;
       }
 
-      /* Product label row */
-      .label-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.6rem 0.85rem;
-        background: var(--accent-light);
-        border: 1.5px solid #e8c4b0;
-        border-radius: 8px;
-        font-size: 0.85rem;
-        color: var(--accent);
-        font-weight: 500;
-      }
-
-      .label-row svg {
-        flex-shrink: 0;
-      }
-
       /* Submit button */
       button[type="submit"] {
         font-family: "DM Sans", sans-serif;
@@ -213,10 +204,7 @@
         border-radius: 8px;
         padding: 0.75rem 1.2rem;
         cursor: pointer;
-        transition:
-          background 0.2s,
-          transform 0.15s,
-          box-shadow 0.2s;
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
         letter-spacing: 0.02em;
         margin-top: 0.4rem;
         display: flex;
@@ -226,8 +214,8 @@
       }
 
       button[type="submit"]:hover {
-        background: #603434;
-        box-shadow: 0 4px 14px rgba(192, 98, 47, 0.35);
+        background: #7a4040;
+        box-shadow: 0 4px 14px rgba(96, 52, 52, 0.35);
         transform: translateY(-1px);
       }
 
@@ -258,46 +246,48 @@
         text-transform: none;
       }
 
+      /* ── Table ── */
       #content {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        min-height: 80px;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
       }
 
-      #content li {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 1rem 1.2rem;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        align-items: center;
-        gap: 1rem;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
+      #content thead tr {
+        border-bottom: 2px solid var(--border);
+      }
+
+      #content thead th {
+        text-align: left;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 0.6rem 0.8rem;
+      }
+
+      #content tbody tr {
+        border-bottom: 1px solid var(--border);
+        transition: background 0.15s;
         animation: slideIn 0.25s ease;
       }
 
-      #content li:hover {
-        border-color: #d4c9be;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      #content tbody tr:last-child {
+        border-bottom: none;
       }
 
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(-6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      #content tbody tr:hover {
+        background: var(--bg);
       }
 
-      .item-id {
+      #content tbody td {
+        padding: 0.85rem 0.8rem;
+        color: var(--text);
+        vertical-align: middle;
+      }
+
+      .td-id {
         font-size: 0.7rem;
         font-weight: 600;
         color: var(--accent);
@@ -305,55 +295,58 @@
         padding: 0.25rem 0.55rem;
         border-radius: 6px;
         letter-spacing: 0.05em;
-        font-family: "DM Mono", monospace;
+        display: inline-block;
       }
 
-      .item-details {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-      }
-
-      .item-name {
-        font-size: 0.95rem;
+      .td-name {
         font-weight: 600;
-        color: var(--text);
       }
 
-      .item-meta {
-        font-size: 0.78rem;
-        color: var(--muted);
-        display: flex;
-        gap: 0.8rem;
-      }
-
-      .item-meta span::before {
-        content: "· ";
-        color: var(--border);
-      }
-      .item-meta span:first-child::before {
-        content: "";
-      }
-
-      .item-price {
-        font-size: 1rem;
+      .td-price {
         font-weight: 600;
-        color: var(--text);
-        white-space: nowrap;
+      }
+
+      .td-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .btn-delete,
+      .btn-update {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        padding: 0.35rem 0.75rem;
+        cursor: pointer;
+        transition: opacity 0.15s, transform 0.15s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-delete {
+        background: #fdecea;
+        color: #b94040;
+      }
+
+      .btn-update {
+        background: var(--accent-light);
+        color: var(--accent);
+      }
+
+      .btn-delete:hover,
+      .btn-update:hover {
+        opacity: 0.8;
+        transform: translateY(-1px);
       }
 
       /* Empty state */
-      .empty {
+      .empty-row td {
         text-align: center;
-        padding: 3rem 1rem;
+        padding: 3rem 1rem !important;
         color: var(--muted);
         font-size: 0.88rem;
-      }
-
-      .empty svg {
-        margin: 0 auto 0.75rem;
-        display: block;
-        opacity: 0.35;
       }
 
       /* Divider in form */
@@ -361,6 +354,11 @@
         height: 1px;
         background: var(--border);
         margin: 0.3rem 0;
+      }
+
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
 
       @media (max-width: 720px) {
@@ -382,47 +380,23 @@
         <p class="card-title">Add New Item</p>
         <form>
           <div class="field">
-            <label>Item ID</label>
-            <input
-              type="text"
-              id="id"
-              name="id"
-              placeholder="e.g. A97N4"
-              required
-            />
+            <label>ID</label>
+            <input type="text" id="ID" name="id" placeholder="e.g. A97N4" required />
           </div>
 
           <div class="field">
             <label>Item Name</label>
-            <input
-              type="text"
-              id="item"
-              name="item"
-              placeholder="Enter item name"
-              required
-            />
+            <input type="text" id="item" name="item" placeholder="Enter item name" required />
           </div>
 
           <div class="field">
             <label>Quantity</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              placeholder="Enter quantity"
-              required
-            />
+            <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" required />
           </div>
 
           <div class="field">
             <label>Price</label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              placeholder="Enter price"
-              required
-            />
+            <input type="number" id="price" name="price" placeholder="Enter price" required />
           </div>
 
           <div class="field">
@@ -435,17 +409,8 @@
 
           <div class="divider"></div>
 
-          <button type="submit" id="add">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            ></svg>
-            Add Item
-          </button>
+          <button type="submit" id="add">Add Item</button>
+          <button type="button" id="update" style="background: var(--muted);">Update Item</button>
         </form>
       </div>
 
@@ -455,31 +420,22 @@
           Items List
           <span class="count" id="count">0 items</span>
         </p>
-        <ul id="content">
-          <li
-            class="empty"
-            style="
-              list-style: none;
-              border: none;
-              background: none;
-              grid-template-columns: 1fr;
-              padding: 3rem 1rem;
-            "
-          >
-            <svg
-              width="36"
-              height="36"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <rect x="2" y="3" width="20" height="14" rx="2" />
-              <path d="M8 21h8M12 17v4" />
-            </svg>
-            No items added
-          </li>
-        </ul>
+        <table id="content">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr class="empty-row">
+              <td colspan="5">No items added</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
