@@ -10,6 +10,11 @@ submit.addEventListener("click", (e) => {
   let quantity = document.querySelector("#quantity").value;
   let price = document.querySelector("#price").value;
   let customize = document.querySelector("#customizable").value;
+
+  if (!id || !item || !quantity || !price) {
+    alert("Please fill in all fields.");
+    return;
+  }
   let formData = { id, item, quantity, price, customize };
 
   fetch("https://semifinexam.onrender.com/api/item", {
