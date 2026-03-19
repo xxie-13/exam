@@ -39,8 +39,7 @@ function getItems() {
     .then((data) => {
       console.log(data);
       data.forEach((element) => {
-        html += `<li> ${element.item} ${element.quantity} <a href="javascript:void(0)" onClick="deleteItem(${element.id})">Delete</a></li>
-        <a href="javascript:void(0)" onClick="updateItem(${element.id})">Update</a></li>`;
+        html += `<li> ${element.item} ${element.quantity} <a href="javascript:void(0)" onClick="deleteItem(${element.id})">Delete</a></li> <a href="javascript:void(0)" onClick="updateItem(${element.id})">Update</a></li>`;
       });
 
       content.innerHTML = html;
