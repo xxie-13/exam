@@ -9,7 +9,8 @@ submit.addEventListener("click", (e) => {
   let item = document.querySelector("#item").value;
   let quantity = document.querySelector("#quantity").value;
   let price = document.querySelector("#price").value;
-  let formData = { id, item, quantity, price };
+  let customize = document.querySelector("#customizable").value;
+  let formData = { id, item, quantity, price, customize };
 
   fetch("https://semifinexam.onrender.com/api/item", {
     method: "POST",
