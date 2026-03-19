@@ -1,18 +1,18 @@
 //SQL
 const connection = require("../config/db");
-//get all users
-exports.getAllUsers = (req, res) => {
-  connection.query("SELECT * FROM userdata", (err, rows, fields) => {
+
+exports.getAllItem = (req, res) => {
+  connection.query("SELECT * FROM eu_store", (err, rows, fields) => {
     if (err) throw err;
     res.json(rows);
   });
 };
 
-//search a user by id
-exports.getUserById = (req, res) => {
+//search an item by id
+exports.getItemById = (req, res) => {
   const id = req.params.id;
   connection.query(
-    "SELECT * FROM userdata WHERE id=?",
+    "SELECT * FROM eu_store WHERE id=?",
     [id],
     (err, rows, fields) => {
       if (err) throw err;
@@ -21,12 +21,12 @@ exports.getUserById = (req, res) => {
   );
 };
 
-// search a user by last name
-exports.getUserByLastName = (req, res) => {
-  const last_name = req.params.last_name;
+// search an item by name
+exports.getItemByName = (req, res) => {
+  const item = req.params.name;
   connection.query(
-    "SELECT * FROM userdata WHERE last_name=?",
-    [last_name],
+    "SELECT * FROM eu_store WHERE name=?",
+    [item],
     (err, rows, fields) => {
       if (err) throw err;
       res.json(rows);
@@ -34,47 +34,47 @@ exports.getUserByLastName = (req, res) => {
   );
 };
 
-exports.createUser = (req, res) => {
-  const { first_name, last_name, email, gender, course } = req.body;
+exports.createItem = (req, res) => {
+  const { item, quantity, price } = req.body;
   connection.query(
-    "INSERT INTO userdata (first_name, last_name, email, gender, course) VALUES (?, ?, ?, ?, ?)",
-    [first_name, last_name, email, gender, course],
+    "INSERT INTO eu_store (name, quantity, price) VALUES (?, ?, ?)",
+    [item, quantity, price],
     (err, result) => {
       if (err) throw err;
       res.json({
-        message: "User created successfully",
-        userId: result.insertId,
+        message: "Item created successfully",
+        itemId: result.insertId,
       });
     },
   );
 };
 
-//update a user
-exports.updateUser = (req, res) => {
-  const { id, first_name, last_name, email, gender, course } = req.body;
+//update an item
+exports.updateItem = (req, res) => {
+  const { id, item, quantity, price } = req.body;
   connection.query(
-    "UPDATE userdata SET first_name=?, last_name=?, email=?, gender=?, course=? WHERE id=?",
-    [first_name, last_name, email, gender, course, id],
+    "UPDATE eu_store SET name=?, quantity=?, price=? WHERE id=?",
+    [item, quantity, price, id],
     (err, result) => {
       if (err) throw err;
       if (result.affectedRows > 0) {
-        res.json({ message: "User updated successfully" });
+        res.json({ message: "Item updated successfully" });
       } else {
-        res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "Item not found" });
       }
     },
   );
 };
 
-//delete a user
-exports.deleteUser = (req, res) => {
+//delete an item
+exports.deleteItem = (req, res) => {
   const id = req.body.id;
-  connection.query("DELETE FROM userdata WHERE id=?", [id], (err, result) => {
+  connection.query("DELETE FROM eu_store WHERE id=?", [id], (err, result) => {
     if (err) throw err;
     if (result.affectedRows > 0) {
-      res.json({ message: "User deleted successfully" });
+      res.json({ message: "Item deleted successfully" });
     } else {
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "Item not found" });
     }
   });
 };
