@@ -40,7 +40,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EMPLOYEES CRUD</title>
+    <title>EU STORE</title>
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
       rel="stylesheet"
@@ -373,13 +373,13 @@
   <body>
     <header>
       <div class="dot"></div>
-      <h1>Employees <span>CRUD</span></h1>
+      <h1>EU <span>Store</span></h1>
     </header>
 
     <div id="container" style="display: grid">
       <!-- Form Panel -->
       <div id="form" class="card">
-        <p class="card-title">Add New User</p>
+        <p class="card-title">Add New Item</p>
         <form>
           <div class="field">
             <label>ID</label>
@@ -387,50 +387,53 @@
               type="text"
               id="id"
               name="id"
-              placeholder="e.g. A26-001"
+              placeholder="e.g. A97N4"
               required
             />
           </div>
 
           <div class="field">
-            <label>First Name</label>
+            <label>Item Name</label>
             <input
               type="text"
-              id="first_name"
-              name="first_name"
-              placeholder="Enter first name"
+              id="item"
+              name="item"
+              placeholder="Enter item name"
               required
             />
           </div>
 
           <div class="field">
-            <label>Last Name</label>
+            <label>Quantity</label>
             <input
-              type="text"
-              id="last_name"
-              name="last_name"
-              placeholder="Enter last name"
+              type="number"
+              id="quantity"
+              name="quantity"
+              placeholder="Enter quantity"
               required
             />
           </div>
 
           <div class="field">
-            <label>Email</label>
+            <label>Price</label>
             <input
-              type="text"
-              id="email"
-              name="email"
-              placeholder="user@email.com"
+              type="number"
+              id="price"
+              name="price"
+              placeholder="Enter price"
+              step="0.01"
+              required
+            />
+          </div>
               required
             />
           </div>
 
           <div class="field">
-            <label>Gender</label>
-            <select id="gender" name="gender">
-              <option value="Male">Other</option>
-              <option value="Female">Female</option>
-              <option value="other">Male</option>
+            <label>Customizable</label>
+            <select id="customizable" name="customizable">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
             </select>
           </div>
 
@@ -453,7 +456,7 @@
       <!-- List Panel -->
       <div id="list-panel" class="card">
         <p class="card-title">
-          Users List
+          Items List
           <span class="count" id="count">0 items</span>
         </p>
         <ul id="content">
