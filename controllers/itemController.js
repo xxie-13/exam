@@ -23,9 +23,9 @@ exports.getItemById = (req, res) => {
 
 // search an item by name
 exports.getItemByName = (req, res) => {
-  const item = req.params.name;
+  const item = req.params.item;
   connection.query(
-    "SELECT * FROM eu_store WHERE name=?",
+    "SELECT * FROM eu_store WHERE item=?",
     [item],
     (err, rows, fields) => {
       if (err) throw err;
@@ -37,7 +37,7 @@ exports.getItemByName = (req, res) => {
 exports.createItem = (req, res) => {
   const { item, quantity, price } = req.body;
   connection.query(
-    "INSERT INTO eu_store (name, quantity, price) VALUES (?, ?, ?)",
+    "INSERT INTO eu_store (item, quantity, price) VALUES (?, ?, ?)",
     [item, quantity, price],
     (err, result) => {
       if (err) throw err;
@@ -53,7 +53,7 @@ exports.createItem = (req, res) => {
 exports.updateItem = (req, res) => {
   const { id, item, quantity, price } = req.body;
   connection.query(
-    "UPDATE eu_store SET name=?, quantity=?, price=? WHERE id=?",
+    "UPDATE eu_store SET item=?, quantity=?, price=? WHERE id=?",
     [item, quantity, price, id],
     (err, result) => {
       if (err) throw err;
