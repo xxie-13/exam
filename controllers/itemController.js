@@ -35,10 +35,10 @@ exports.getItemByName = (req, res) => {
 };
 
 exports.createItem = (req, res) => {
-  const { id, item, quantity, price } = req.body;
+  const { id, item, quantity, price, customize } = req.body;
   connection.query(
-    "INSERT INTO eu_store (id, item, quantity, price) VALUES (?, ?, ?, ?)",
-    [id, item, quantity, price],
+    "INSERT INTO eu_store (id, item, quantity, price, customize) VALUES (?, ?, ?, ?, ?)",
+    [id, item, quantity, price, customize],
     (err, result) => {
       if (err) throw err;
       res.json({
