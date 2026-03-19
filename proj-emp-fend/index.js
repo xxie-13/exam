@@ -3,7 +3,8 @@ const submit = document.querySelector("#add");
 const updateBtn = document.querySelector("#update");
 
 // POST
-submit.addEventListener("click", () => {
+submit.addEventListener("click", (e) => {
+  e.preventDefault();
   let id = document.querySelector("#ID").value;
   let item = document.querySelector("#item").value;
   let quantity = document.querySelector("#quantity").value;
@@ -83,7 +84,8 @@ function updateItem(id) {
 }
 
 // PUT
-updateBtn.addEventListener("click", () => {
+updateBtn.addEventListener("click", (e) => {
+  e.preventDefault();
   let id = document.querySelector("#ID").value;
   let item = document.querySelector("#item").value;
   let quantity = document.querySelector("#quantity").value;
