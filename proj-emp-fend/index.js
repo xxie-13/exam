@@ -1,76 +1,77 @@
-//const { response } = require("express");
-
-const content = document.querySelector("#content");
+const tbody = document.querySelector("#tbody");
 const submit = document.querySelector("#add");
-const update = document.querySelector("#update");
+const updateBtn = document.querySelector("#update");
 
-//POST API
+// POST
 submit.addEventListener("click", () => {
+  let id = document.querySelector("#ID").value;
   let item = document.querySelector("#item").value;
   let quantity = document.querySelector("#quantity").value;
   let price = document.querySelector("#price").value;
-  let formData = { item, quantity, price };
+  let formData = { id, item, quantity, price };
 
   fetch("https://semifinexam.onrender.com/api/item", {
     method: "POST",
     body: JSON.stringify(formData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).catch((error) => {
-    console.log(error);
-  });
+    headers: { "Content-Type": "application/json" },
+  }).catch((error) => console.log(error));
+
   alert("Item Added Successfully");
   location.reload();
 });
 
+// LOAD
 window.addEventListener("load", () => {
   getItems();
 });
 
+// GET
 function getItems() {
-  let html = "";
-  //FETCH API
   fetch("https://semifinexam.onrender.com/api/item", { mode: "cors" })
-    .then((response) => {
-      console.log(response);
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      if (!data.length) return;
+
+      let rows = "";
       data.forEach((element) => {
-        html += `<li> ${element.item} ${element.quantity} <a href="javascript:void(0)" onClick="deleteItem(${element.id})">Delete</a></li> <a href="javascript:void(0)" onClick="updateItem(${element.id})">Update</a></li>`;
+        rows += `
+          <tr>
+            <td><span class="td-id">${element.id}</span></td>
+            <td class="td-name">${element.item}</td>
+            <td>${element.quantity}</td>
+            <td class="td-price">₱${element.price}</td>
+            <td>
+              <div class="td-actions">
+                <a href="javascript:void(0)" class="btn-update" onclick="updateItem(${element.id})">Update</a>
+                <a href="javascript:void(0)" class="btn-delete" onclick="deleteItem(${element.id})">Delete</a>
+              </div>
+            </td>
+          </tr>`;
       });
 
-      content.innerHTML = html;
+      tbody.innerHTML = rows;
+      document.querySelector("#count").textContent = `${data.length} item${data.length !== 1 ? "s" : ""}`;
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => console.log(error));
 }
 
-//DELETE
+// DELETE
 function deleteItem(id) {
-  fetch("https://semifinexam.onrender.com/api/item", {
-    method: "DELETE",
-    body: JSON.stringify({ id }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.text())
-    .then((response) => console.log(response))
-    .catch((error) => {
-      console.log(error);
-    });
   if (confirm("Confirm deletion?")) {
-    location.reload();
+    fetch("https://semifinexam.onrender.com/api/item", {
+      method: "DELETE",
+      body: JSON.stringify({ id }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => response.text())
+      .then(() => location.reload())
+      .catch((error) => console.log(error));
   }
 }
 
-//UPDATE
+// UPDATE (fill form)
 function updateItem(id) {
-  fetch(`https://semifinexam.onrender.com/api/item${id}`)
+  fetch(`https://semifinexam.onrender.com/api/item/${id}`)
     .then((response) => response.json())
     .then((data) => {
       document.querySelector("#item").value = data[0].item;
@@ -78,28 +79,23 @@ function updateItem(id) {
       document.querySelector("#price").value = data[0].price;
       document.querySelector("#ID").value = data[0].id;
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => console.log(error));
 }
 
-update.addEventListener("click", () => {
+// PUT
+updateBtn.addEventListener("click", () => {
+  let id = document.querySelector("#ID").value;
   let item = document.querySelector("#item").value;
   let quantity = document.querySelector("#quantity").value;
   let price = document.querySelector("#price").value;
+  let formData = { id, item, quantity, price };
 
-  let id = document.querySelector("#ID").value;
-
-  let formData = { item, quantity, price, id };
-  fetch(`https://semifinexam.onrender.com/api/item`, {
+  fetch("https://semifinexam.onrender.com/api/item", {
     method: "PUT",
     body: JSON.stringify(formData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).catch((error) => {
-    console.log(error);
-  });
+    headers: { "Content-Type": "application/json" },
+  }).catch((error) => console.log(error));
+
   alert("Item Updated Successfully");
   location.reload();
 });
