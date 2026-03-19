@@ -1,0 +1,489 @@
+<!-- <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employees CRUD</title>
+  </head>
+  <body>
+    <h1>Employees CRUD</h1>
+    <div id="container" style="display: flex">
+      <div id="form" style="padding-right: 5rem; display: inline;"> 
+        <form>
+          <label>First Name</label>
+          <input type="text" id="first_name" name="first_name" required />
+          <label>Last Name</label>
+          <input type="text" id="last_name" name="last_name" required />
+          <label>Email</label>
+          <input type="email" id="email" name="email" required />
+          <label>Course</label>
+          <input type="text" id="course" name="course" required />
+          <label>Gender</label>
+          <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <label>Course</label>
+          <button type="submit" id = "add">Add Employee</button>
+          <button id=""update"> update</button>
+          <input type="hidden" id="ID">
+        </form>
+    </div>
+    <ul id="content"></ul>
+    <script src="index.js"></script>
+  </body>
+</html> -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EMPLOYEES CRUD</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #f4f1ec;
+        --surface: #fffdf9;
+        --border: #e2ddd6;
+        --accent: #c0622f;
+        --accent-light: #f5e8e0;
+        --text: #1c1915;
+        --muted: #8a8078;
+        --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+        --radius: 12px;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 2.5rem 2rem;
+      }
+
+      /* ── Header ── */
+      header {
+        max-width: 1100px;
+        margin: 0 auto 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      header .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex-shrink: 0;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        color: var(--text);
+        letter-spacing: -0.02em;
+      }
+
+      h1 span {
+        color: var(--accent);
+      }
+
+      /* ── Layout ── */
+      #container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      /* ── Card ── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 2rem;
+      }
+
+      .card-title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.6rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* ── Form ── */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      label {
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 0.03em;
+      }
+
+      input,
+      select {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.93rem;
+        color: var(--text);
+        background: var(--bg);
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 0.6rem 0.85rem;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        width: 100%;
+        appearance: none;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-light);
+        background: var(--surface);
+      }
+
+      select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8078' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.85rem center;
+        padding-right: 2.2rem;
+        cursor: pointer;
+      }
+
+      /* Product label row */
+      .label-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 0.85rem;
+        background: var(--accent-light);
+        border: 1.5px solid #e8c4b0;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .label-row svg {
+        flex-shrink: 0;
+      }
+
+      /* Submit button */
+      button[type="submit"] {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #fff;
+        background: var(--accent);
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.2rem;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.15s,
+          box-shadow 0.2s;
+        letter-spacing: 0.02em;
+        margin-top: 0.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      button[type="submit"]:hover {
+        background: #a8521f;
+        box-shadow: 0 4px 14px rgba(192, 98, 47, 0.35);
+        transform: translateY(-1px);
+      }
+
+      button[type="submit"]:active {
+        transform: translateY(0);
+      }
+
+      /* ── Product List ── */
+      #list-panel {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #list-panel .card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #list-panel .card-title .count {
+        background: var(--accent-light);
+        color: var(--accent);
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      #content {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        min-height: 80px;
+      }
+
+      #content li {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem 1.2rem;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 1rem;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        animation: slideIn 0.25s ease;
+      }
+
+      #content li:hover {
+        border-color: #d4c9be;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .item-id {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--accent);
+        background: var(--accent-light);
+        padding: 0.25rem 0.55rem;
+        border-radius: 6px;
+        letter-spacing: 0.05em;
+        font-family: "DM Mono", monospace;
+      }
+
+      .item-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+
+      .item-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .item-meta {
+        font-size: 0.78rem;
+        color: var(--muted);
+        display: flex;
+        gap: 0.8rem;
+      }
+
+      .item-meta span::before {
+        content: "· ";
+        color: var(--border);
+      }
+      .item-meta span:first-child::before {
+        content: "";
+      }
+
+      .item-price {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+        white-space: nowrap;
+      }
+
+      /* Empty state */
+      .empty {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .empty svg {
+        margin: 0 auto 0.75rem;
+        display: block;
+        opacity: 0.35;
+      }
+
+      /* Divider in form */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 0.3rem 0;
+      }
+
+      @media (max-width: 720px) {
+        #container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="dot"></div>
+      <h1>Employees <span>CRUD</span></h1>
+    </header>
+
+    <div id="container" style="display: grid">
+      <!-- Form Panel -->
+      <div id="form" class="card">
+        <p class="card-title">Add New User</p>
+        <form>
+          <div class="field">
+            <label>ID</label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              placeholder="e.g. A26-001"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label>First Name</label>
+            <input
+              type="text"
+              id="first_name"
+              name="first_name"
+              placeholder="Enter first name"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label>Last Name</label>
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              placeholder="Enter last name"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label>Email</label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              placeholder="user@email.com"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label>Gender</label>
+            <select id="gender" name="gender">
+              <option value="Male">Other</option>
+              <option value="Female">Female</option>
+              <option value="other">Male</option>
+            </select>
+          </div>
+
+          <div class="divider"></div>
+
+          <button type="submit" id="add">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            ></svg>
+            Add User
+          </button>
+        </form>
+      </div>
+
+      <!-- List Panel -->
+      <div id="list-panel" class="card">
+        <p class="card-title">
+          Users List
+          <span class="count" id="count">0 items</span>
+        </p>
+        <ul id="content">
+          <li
+            class="empty"
+            style="
+              list-style: none;
+              border: none;
+              background: none;
+              grid-template-columns: 1fr;
+              padding: 3rem 1rem;
+            "
+          >
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <path d="M8 21h8M12 17v4" />
+            </svg>
+            No users added
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
