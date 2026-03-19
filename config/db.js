@@ -20,9 +20,3 @@ const connection = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
 });
-
-module.exports = connection;
-
-git add .
-git commit -m "fix db pool and cors"
-git push
