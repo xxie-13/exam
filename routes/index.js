@@ -9,6 +9,6 @@ router.get("/item", itemController.getAllItem);
 router.get("/item/:id", itemController.getItemById);
 router.post("/item", itemController.createItem);
 router.put("/item", itemController.updateItem);
-router.delete("/items", itemController.deleteItem);
+router.delete("/item", itemController.deleteItem);
 
 module.exports = router;
