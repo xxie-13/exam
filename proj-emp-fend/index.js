@@ -45,8 +45,8 @@ function getItems() {
             <td class="td-price">₱${element.price}</td>
             <td>
               <div class="td-actions">
-                <a href="javascript:void(0)" class="btn-update" onclick="updateItem(${element.id})">Update</a>
-                <a href="javascript:void(0)" class="btn-delete" onclick="deleteItem(${element.id})">Delete</a>
+                <a href="javascript:void(0)" class="btn-update" onclick="updateItem('${element.id}')">Update</a>
+                <a href="javascript:void(0)" class="btn-delete" onclick="deleteItem('${element.id}')">Delete</a>
               </div>
             </td>
           </tr>`;
@@ -66,13 +66,12 @@ function deleteItem(id) {
       body: JSON.stringify({ id }),
       headers: { "Content-Type": "application/json" },
     })
-      .then((response) => response.text())
       .then(() => location.reload())
       .catch((error) => console.log(error));
   }
 }
 
-// UPDATE (fill form)
+// UPDATE
 function updateItem(id) {
   fetch(`https://semifinexam.onrender.com/api/item/${id}`)
     .then((response) => response.json())
