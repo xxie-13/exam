@@ -15,10 +15,12 @@ submit.addEventListener("click", (e) => {
     method: "POST",
     body: JSON.stringify(formData),
     headers: { "Content-Type": "application/json" },
-  }).catch((error) => console.log(error));
-
-  alert("Item Added Successfully");
-  location.reload();
+  })
+    .then(() => {
+      alert("Item Added Successfully");
+      location.reload();
+    })
+    .catch((error) => console.log(error));
 });
 
 // LOAD
@@ -96,8 +98,10 @@ updateBtn.addEventListener("click", (e) => {
     method: "PUT",
     body: JSON.stringify(formData),
     headers: { "Content-Type": "application/json" },
-  }).catch((error) => console.log(error));
-
-  alert("Item Updated Successfully");
-  location.reload();
+  })
+    .then(() => {
+      alert("Item Updated Successfully");
+      location.reload();
+    })
+    .catch((error) => console.log(error));
 });
