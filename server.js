@@ -19,11 +19,11 @@ const logger = (req, res, next) => {
   );
   next();
 };
-app.use(cors({
+/*app.use(cors({
   origin: "https://semifinexam.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"]
-}));
+}));*/
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
